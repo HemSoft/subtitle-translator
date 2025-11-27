@@ -6,7 +6,7 @@ using Spectre.Console.Cli;
 
 using SubtitleTranslator.Commands;
 
-var app = new CommandApp();
+var app = new CommandApp<AutoCommand>();
 
 app.Configure(config =>
 {
@@ -21,6 +21,11 @@ app.Configure(config =>
     config.AddCommand<InteractiveCommand>("interactive")
         .WithDescription("Launch interactive mode with prompts")
         .WithAlias("i");
+
+    config.AddCommand<AutoCommand>("auto")
+        .WithDescription("Auto-process media files without subtitles")
+        .WithExample("auto")
+        .WithExample("auto", "-m", "videos", "-t", "es");
 });
 
 return await app.RunAsync(args);
