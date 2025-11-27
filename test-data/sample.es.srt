@@ -1,0 +1,20 @@
+﻿1
+00:00:01,000 --> 00:00:04,000
+¡Hola, bienvenidos a nuestro programa!
+
+2
+00:00:05,000 --> 00:00:08,500
+Hoy aprenderemos sobre programación.
+
+3
+00:00:10,000 --> 00:00:14,000
+Comencemos con los fundamentos de las ciencias de la computación.
+
+4
+00:00:15,500 --> 00:00:19,000
+Las variables son contenedores para almacenar valores de datos.
+
+5
+00:00:20,000 --> 00:00:24,500
+Una función es un bloque de código que realiza una tarea específica.
+

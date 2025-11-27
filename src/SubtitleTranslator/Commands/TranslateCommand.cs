@@ -67,10 +67,7 @@ internal sealed class TranslateCommand : AsyncCommand<TranslateCommand.Settings>
 
         if (target == sourceLanguage)
         {
-            target = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                    .Title("Source and target languages are the same. Select a different target language:")
-                    .AddChoices(LanguageService.GetCommonLanguages().Where(l => l != sourceLanguage)));
+            AnsiConsole.MarkupLine($"[yellow]Warning:[/] Detected source language ({sourceLanguage}) matches target. Using source language for translation context.");
         }
 
         return target;
@@ -82,34 +79,14 @@ internal sealed class TranslateCommand : AsyncCommand<TranslateCommand.Settings>
         string targetLanguage,
         Settings settings)
     {
-        var chunks = SubtitleService.ChunkSubtitles(subtitles, settings.ChunkSize);
-        var translatedSubtitles = new List<SubtitleEntry>();
-
-        await AnsiConsole.Progress()
-            .AutoClear(false)
-            .Columns(
-                new TaskDescriptionColumn(),
-                new ProgressBarColumn(),
-                new PercentageColumn(),
-                new SpinnerColumn())
-            .StartAsync(async ctx =>
-            {
-                var task = ctx.AddTask($"[green]Translating {chunks.Count} chunks[/]", maxValue: chunks.Count);
-
-                foreach (var chunk in chunks)
-                {
-                    var translated = await TranslationService.TranslateChunkAsync(
-                        chunk,
-                        sourceLanguage,
-                        targetLanguage,
-                        settings.CustomInstructions);
-
-                    translatedSubtitles.AddRange(translated);
-                    task.Increment(1);
-                }
-            });
-
-        return translatedSubtitles;
+        return await AnsiConsole.Status()
+            .Spinner(Spinner.Known.Dots)
+            .StartAsync($"Translating {subtitles.Count} entries...", async _ =>
+                await TranslationService.TranslateAsync(
+                    subtitles,
+                    sourceLanguage,
+                    targetLanguage,
+                    settings.CustomInstructions));
     }
 
     /// <summary>
@@ -144,14 +121,6 @@ internal sealed class TranslateCommand : AsyncCommand<TranslateCommand.Settings>
         [Description("Output file path (default: input file with target language code appended)")]
         [CommandOption("-o|--output")]
         public string? OutputFile { get; init; }
-
-        /// <summary>
-        /// Gets the number of subtitle entries per translation chunk.
-        /// </summary>
-        [Description("Number of subtitle entries per translation chunk (default: 50)")]
-        [CommandOption("-c|--chunk-size")]
-        [DefaultValue(50)]
-        public int ChunkSize { get; init; } = 50;
 
         /// <summary>
         /// Gets custom translation instructions for Claude.

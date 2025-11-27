@@ -78,7 +78,7 @@ internal static class LanguageService
 
         var prompt = string.Format(
             CultureInfo.InvariantCulture,
-            "Detect the language of the following text and respond with ONLY the ISO 639-1 two-letter language code (e.g., 'en', 'es', 'fr'). Do not include any other text in your response.\n\nText: {0}",
+            "Detect the language of the following text and respond with ONLY the ISO 639-1 two-letter language code (e.g., 'en' for English, 'da' for Danish, 'sv' for Swedish, 'no' for Norwegian). Do not include any other text, quotes, or explanation in your response - just the two-letter code.\n\nText: {0}",
             sampleText);
 
         var escapedPrompt = JsonSerializer.Serialize(prompt);
@@ -86,8 +86,10 @@ internal static class LanguageService
         using var process = new Process();
         process.StartInfo = new ProcessStartInfo
         {
-            FileName = "claude",
-            Arguments = $"-p {escapedPrompt} --output-format text",
+            FileName = OperatingSystem.IsWindows() ? "cmd.exe" : "claude",
+            Arguments = OperatingSystem.IsWindows()
+                ? $"/c claude -p {escapedPrompt} --output-format text"
+                : $"-p {escapedPrompt} --output-format text",
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
