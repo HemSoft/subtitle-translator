@@ -1,0 +1,60 @@
+<Project>
+  <PropertyGroup>
+    <!-- Fixed version: 1.0.{git-commit-count} -->
+    <!-- CI/CD pipeline passes: /p:RevisionNumber={commit-count} /p:SourceRevisionId={commit-hash} -->
+
+    <!-- Defaults for local builds (overridden by CI/CD) -->
+    <RevisionNumber Condition="'$(RevisionNumber)' == ''">0</RevisionNumber>
+    <SourceRevisionId Condition="'$(SourceRevisionId)' == ''">local</SourceRevisionId>
+
+    <!-- Version: 1.0.{RevisionNumber} -->
+    <VersionPrefix>1.0.$(RevisionNumber)</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+    <AssemblyVersion>1.0.$(RevisionNumber)</AssemblyVersion>
+    <FileVersion>1.0.$(RevisionNumber)</FileVersion>
+    <InformationalVersion>1.0.$(RevisionNumber)+$(SourceRevisionId)</InformationalVersion>
+
+    <!-- Force these settings -->
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
+    <ContinuousIntegrationBuild>false</ContinuousIntegrationBuild>
+    <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+
+    <Product>Subtitle Translator</Product>
+    <Company>HemSoft</Company>
+    <Copyright>Copyright © 2025 HemSoft</Copyright>
+    <Authors>Franz Hemmer</Authors>
+    <PackageProjectUrl>https://github.com/HemSoft/subtitle-translator</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/HemSoft/subtitle-translator</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest-all</AnalysisLevel>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <!-- Suppress analyzers not applicable to console apps -->
+    <NoWarn>$(NoWarn);CA2007;CA1812;CA1308</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.16.0.128591">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SecurityCodeScan.VS2019" Version="5.6.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)SonarLint.xml" Condition="Exists('$(MSBuildThisFileDirectory)SonarLint.xml')" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Condition="Exists('$(MSBuildThisFileDirectory)stylecop.json')" />
+  </ItemGroup>
+</Project>

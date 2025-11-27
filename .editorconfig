@@ -1,0 +1,113 @@
+root = true
+
+[*]
+end_of_line = crlf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+charset = utf-8
+trim_trailing_whitespace = true
+
+[*.cs]
+# Core C# Coding Conventions
+csharp_style_namespace_declarations = file_scoped:warning
+csharp_using_directive_placement = inside_namespace:warning
+dotnet_diagnostic.IDE0005.severity = warning
+dotnet_diagnostic.IDE0036.severity = warning
+
+# StyleCop SA1101 Compatibility - Prefer 'this.'
+dotnet_style_qualification_for_field = true:none
+dotnet_style_qualification_for_property = true:none
+dotnet_style_qualification_for_method = true:none
+dotnet_style_qualification_for_event = true:none
+
+# Language Rules - Expression Bodies
+csharp_style_expression_bodied_methods = true:warning
+csharp_style_expression_bodied_constructors = true:warning
+csharp_style_expression_bodied_operators = true:warning
+csharp_style_expression_bodied_properties = true:warning
+csharp_style_expression_bodied_indexers = true:warning
+csharp_style_expression_bodied_accessors = true:warning
+csharp_style_expression_bodied_lambdas = true:warning
+csharp_style_expression_bodied_local_functions = true:warning
+
+# Language Rules - Pattern Matching
+csharp_style_pattern_matching_over_is_with_cast_check = true:warning
+csharp_style_pattern_matching_over_as_with_null_check = true:warning
+csharp_style_prefer_switch_expression = true:warning
+csharp_style_prefer_pattern_matching = true:warning
+csharp_style_prefer_not_pattern = true:warning
+csharp_style_prefer_extended_property_pattern = true:warning
+
+# Language Rules - Null Safety
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
+csharp_style_prefer_null_check_over_type_check = true:warning
+dotnet_diagnostic.IDE0031.severity = warning # Null propagation
+dotnet_diagnostic.IDE0041.severity = warning # Null check
+
+# Language Rules - Modern C# Features (C# 12/13/14)
+csharp_style_prefer_primary_constructors = true:warning
+dotnet_diagnostic.IDE0290.severity = warning
+csharp_style_prefer_method_group_conversion = true:warning
+csharp_style_prefer_top_level_statements = true:silent # Optional, usually per project
+csharp_style_prefer_utf8_string_literals = true:warning
+
+# Collection Expressions (C# 12+)
+dotnet_diagnostic.IDE0300.severity = warning # Use collection expression for array
+dotnet_diagnostic.IDE0301.severity = warning # Use collection expression for empty
+dotnet_diagnostic.IDE0302.severity = warning # Use collection expression for stack alloc
+dotnet_diagnostic.IDE0303.severity = warning # Use collection expression for Create()
+dotnet_diagnostic.IDE0304.severity = warning # Use collection expression for builder
+dotnet_diagnostic.IDE0305.severity = warning # Use collection expression for ToList/ToArray
+
+# Language Rules - General
+csharp_style_var_for_built_in_types = true:warning
+csharp_style_var_when_type_is_apparent = true:warning
+csharp_style_var_elsewhere = true:warning
+csharp_style_prefer_implicit_object_creation_when_type_is_apparent = true:warning
+csharp_style_prefer_index_operator = true:warning
+csharp_style_prefer_range_operator = true:warning
+csharp_style_prefer_tuple_swap = true:warning
+csharp_style_inlined_variable_declaration = true:warning
+csharp_style_deconstructed_variable_declaration = true:warning
+dotnet_style_object_initializer = true:warning
+dotnet_style_collection_initializer = true:warning
+dotnet_style_coalesce_expression = true:warning
+dotnet_style_null_propagation = true:warning
+dotnet_style_prefer_auto_properties = true:warning
+dotnet_style_prefer_compound_assignment = true:warning
+dotnet_style_prefer_conditional_expression_over_assignment = true:warning
+dotnet_style_prefer_conditional_expression_over_return = true:warning
+dotnet_style_prefer_inferred_tuple_names = true:warning
+dotnet_style_prefer_inferred_anonymous_type_member_names = true:warning
+dotnet_style_prefer_simplified_boolean_expressions = true:warning
+dotnet_style_prefer_simplified_interpolation = true:warning
+
+# Unnecessary Code
+dotnet_diagnostic.IDE0035.severity = warning # Unreachable code
+dotnet_diagnostic.IDE0051.severity = warning # Unused private member
+dotnet_diagnostic.IDE0052.severity = warning # Unused private field
+dotnet_diagnostic.IDE0059.severity = warning # Unnecessary assignment
+dotnet_diagnostic.IDE0060.severity = warning # Unused parameter
+
+# Complexity
+dotnet_diagnostic.S3776.severity = warning
+dotnet_diagnostic.S125.severity = warning
+
+# StyleCop Ordering Rules
+dotnet_diagnostic.SA1201.severity = warning
+dotnet_diagnostic.SA1202.severity = warning
+dotnet_diagnostic.SA1203.severity = warning
+dotnet_diagnostic.SA1204.severity = warning
+
+# To disallow trailing comments (Warning)
+dotnet_diagnostic.SA1515.severity = warning
+
+# ConfigureAwait is not needed in console applications
+dotnet_diagnostic.CA2007.severity = none
+
+# False positive for classes instantiated by DI/reflection
+dotnet_diagnostic.CA1812.severity = none
+
+# Prefer lowercase for consistency in ISO codes
+dotnet_diagnostic.CA1308.severity = none

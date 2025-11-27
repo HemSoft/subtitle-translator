@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AnalysisInput>
+  <Rules>
+    <Rule>
+      <Key>S3776</Key>
+      <Parameters>
+        <Parameter>
+          <Key>threshold</Key>
+          <Value>10</Value>
+        </Parameter>
+      </Parameters>
+    </Rule>
+    <Rule>
+      <Key>S2325</Key>
+    </Rule>
+    <Rule>
+      <Key>S125</Key>
+    </Rule>
+    <Rule>
+      <Key>xml:S125</Key>
+    </Rule>
+  </Rules>
+</AnalysisInput>

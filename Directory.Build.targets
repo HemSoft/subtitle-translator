@@ -1,0 +1,30 @@
+<Project>
+  <PropertyGroup>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+  </PropertyGroup>
+
+  <!-- Git commit count target - only runs if RevisionNumber not already set by CI/CD -->
+  <Target Name="GetGitCommitCount" BeforeTargets="BeforeBuild;BeforeCompile;CoreCompile" Condition="'$(RevisionNumber)' == '0'">
+    <!-- Get git commit count to use as revision number for local builds -->
+    <Exec Command="git rev-list --count HEAD" ConsoleToMSBuild="true" IgnoreExitCode="true" StandardOutputImportance="Low" ContinueOnError="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitCount" />
+    </Exec>
+
+    <!-- Get short commit hash for local builds -->
+    <Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" IgnoreExitCode="true" StandardOutputImportance="Low" ContinueOnError="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitHash" />
+    </Exec>
+
+    <PropertyGroup>
+      <!-- Override defaults from Directory.Build.props with actual git values if available -->
+      <RevisionNumber Condition="'$(GitCommitCount)' != '' AND '$(GitCommitCount)' != '0'">$(GitCommitCount)</RevisionNumber>
+      <SourceRevisionId Condition="'$(GitCommitHash)' != ''">$(GitCommitHash)</SourceRevisionId>
+
+      <!-- Rebuild version with git values: 1.0.{commit-count} -->
+      <VersionPrefix>1.0.$(RevisionNumber)</VersionPrefix>
+      <AssemblyVersion>1.0.$(RevisionNumber)</AssemblyVersion>
+      <FileVersion>1.0.$(RevisionNumber)</FileVersion>
+      <InformationalVersion>1.0.$(RevisionNumber)+$(SourceRevisionId)</InformationalVersion>
+    </PropertyGroup>
+  </Target>
+</Project>
